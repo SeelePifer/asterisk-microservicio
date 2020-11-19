@@ -1,0 +1,29 @@
+version: '3.7'
+
+
+services: 
+    asterisk:
+      container_name: fts2020.pstn-emulator
+      dns: 8.8.8.8
+      image: andrius/asterisk:16-current
+      privileged: true
+      restart: on-failure
+      stop_grace_period: 1m30s
+      networks: 
+        - fts_2020
+      ports: 
+        - 6060:5163/udp
+        - 40050-40099:40050-40099/udp
+      privileged: true
+      volumes: 
+        - ./conf:/etc/asterisk/
+      working_dir: /etc/asterisk
+
+networks: 
+    fts:2020:
+      ipam: 
+        driver: default
+        config: 
+          subnet: 172.72.72.0/24
+
+
